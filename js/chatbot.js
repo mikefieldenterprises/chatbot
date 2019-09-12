@@ -1,14 +1,58 @@
 function calculateResponse( userinput ) {
-    var thisurl = "./chatbot-engine.py?q="+userinput;
+    var step = document.getElementById("step").value;
+    var channel = document.getElementById("channel").value;
+    var clientid = document.getElementById("clientid").value;
+    var sessionid = document.getElementById("sessionid").value;
+    var thisurl = "./chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
     $.ajax({url: thisurl, success: function(result){
         removeDOMElement( "thinking-wrapper" );
         var jsonobj = JSON.parse(result);
         showResponse( jsonobj.content );
-        console.log( jsonobj );
         if ( jsonobj.links != null ) {
             showResponseAddOn( jsonobj.links );
         }
+        if ( jsonobj.buttonoptions != null && jsonobj.buttonoptions.length > 0 ) {
+            showButtonOptions( jsonobj.buttonoptions );
+            disableTextInput();
+        } else {
+            enableTextInput();
+            flashCursor();
+        }
+        document.getElementById("step").value = jsonobj.step;
+        document.getElementById("channel").value = jsonobj.channel;
+        if ( jsonobj.closechat ) {
+            pauseThenCloseChat();
+        }
     }});
+}
+
+function disableTextInput() {
+    document.getElementById("userBoxNew").disabled = true;
+    document.getElementById("userBoxNew").placeholder = "";
+}
+
+function enableTextInput() {
+    document.getElementById("userBoxNew").disabled = false;
+    document.getElementById("userBoxNew").placeholder = "Type your message here";
+}
+
+function flashCursor() {
+    var div = document.getElementById("userBoxNew");
+    if ( div.value == "" ) {
+        div.style.color = '#999999';
+        setTimeout( function() {
+            document.getElementById("userBoxNew").style.color = '#FFFFFF';
+            setTimeout( function() {
+                flashCursor();
+            }, 1000 );
+        }, 1000 );
+    } else {
+        div.style.color = "#FFFFFF";
+    }
+}
+
+function formatNumberToTwoDigits( num ) {
+    return (num<10) ? "0"+(num) : num;
 }
 
 function getFormattedDate(date) {
@@ -33,6 +77,29 @@ function getFormattedTimestamp() {
     return date+' '+time;
 }
 
+// Returns timestamp like 20190930-145802
+function getNewSessionId() {
+    var date = new Date();
+    return date.getFullYear()+""+
+        formatNumberToTwoDigits(date.getMonth()+1)+""+
+        formatNumberToTwoDigits(date.getDate())+"-"+
+        formatNumberToTwoDigits(date.getHours())+
+        formatNumberToTwoDigits(date.getMinutes())+
+        formatNumberToTwoDigits(date.getSeconds());
+}
+
+function pauseThenCloseChat() {
+    setTimeout( function() {
+        disableTextInput();
+        document.getElementById("step").value = "1";
+        document.getElementById("channel").value = "1";
+        document.getElementById("sessionid").value = "";
+        document.getElementById("chat-started").value = "false";
+        document.getElementById("conversation-wrapper").innerHTML = "";
+        toggleChat();        
+    }, 2000 );
+}
+
 function removeDOMElement( id ) {
     var domelement = document.getElementById( id );
     domelement.parentNode.removeChild( domelement );
@@ -50,6 +117,23 @@ function scrollToBottom(){
     }
 }
 
+function showButtonOptions( buttonoptions ) {
+
+    var responseTemplate = '<div class="response" id="buttondiv">'+
+'                                        <div bot="" class="response-wrapper avatar-offset">'+
+'                                            <div class="text response-content">';
+    for ( var i=0; i<buttonoptions.length; i++ ) {
+        optiontext = buttonoptions[i].replace("'", "\\'");
+        responseTemplate += '                        <div class="buttonoption" onclick="talkWithInput(\''+optiontext+'\'); removeDOMElement(\'buttondiv\');" style="background: rgb(233, 238, 244); border-color: rgb(233, 238, 244); color: rgb(100, 100, 100);">'+buttonoptions[i]+'</div>';
+    }
+    responseTemplate += '                    </div>'+
+'                                        </div>'+
+'                                    </div>';
+    document.getElementById("conversation-wrapper").innerHTML += responseTemplate;
+    scrollToBottom();
+
+}
+
 function showResponse(responsetext) {
 
     var timestamp = getFormattedTimestamp();
@@ -64,13 +148,11 @@ function showResponse(responsetext) {
 '                                    </div>';
     document.getElementById("conversation-wrapper").innerHTML += responseTemplate;
     scrollToBottom();
-    updateChatTranscript( "bot", timestamp, responsetext );
 
 }
 
 function showResponseAddOn(responsetext) {
 
-    var timestamp = getFormattedTimestamp();
     var responseTemplate = '<div class="response">'+
 '                                        <div bot="" class="response-wrapper avatar-offset">'+
 '                                            <div class="text response-content">'+
@@ -80,7 +162,6 @@ function showResponseAddOn(responsetext) {
 '                                    </div>';
     document.getElementById("conversation-wrapper").innerHTML += responseTemplate;
     scrollToBottom();
-    updateChatTranscript( "bot", timestamp, responsetext );
 
 }
 
@@ -99,7 +180,6 @@ function showUserInput( userinput ) {
     document.getElementById("userBoxNew").value = "";
     document.getElementById("conversation-wrapper").innerHTML += userInputTemplate;
     scrollToBottom();
-    updateChatTranscript( "You", timestamp, userinput ); 
 }
 
 function showThinking() {
@@ -134,18 +214,25 @@ function showThinkingDots() {
     }, 500);
 }
 
-function showWelcomeMessage() {
-    showResponse(welcomemessage);
+function startChat() {
+    document.getElementById("chat-started").value = "true";
+    document.getElementById("sessionid").value = getNewSessionId();
+    showThinking();
+    calculateResponse( "" ); // Load channel 1 step 1
 }
 
 function talk() {
     var userinput = document.getElementById("userBoxNew").value;
+    talkWithInput( userinput );
+} 
+
+function talkWithInput( userinput ) {
     if ( userinput != "" ) {
         showUserInput( userinput );
         showThinking();
         calculateResponse( userinput );
     }
-} 
+}
 
 function toggleChat() {
     if ( document.getElementById("chatbot-chat").style.display == "none" ) {
@@ -155,8 +242,7 @@ function toggleChat() {
         document.getElementById("chatbot-chat").style.visibility = "visible";
         document.getElementById("chatbot-button").style.visibility = "hidden";
         if ( document.getElementById("chat-started").value != "true" ) {
-            showWelcomeMessage();
-            document.getElementById("chat-started").value = "true";
+            startChat();
         }
     } else {
         // Close chat
@@ -165,20 +251,6 @@ function toggleChat() {
         document.getElementById("chatbot-chat").style.visibility = "hidden";
         document.getElementById("chatbot-button").style.visibility = "visible";
     }
-}
-
-function updateChatTranscript( user, timestamp, inputtext ) {
-    var obj = new Object();
-    obj.user = user;
-    obj.timestamp = timestamp;
-    obj.text = inputtext;
-    var existingvals = document.getElementById("chat-transcript").value;
-    var existingobjs = [];
-    if ( existingvals != "" ) {
-        existingvals += ",";
-    }
-    existingvals += JSON.stringify(obj);
-    document.getElementById("chat-transcript").value = existingvals;
 }
 
 function updateInnerHTML( divid, content ) {

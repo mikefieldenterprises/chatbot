@@ -1,2 +1,1 @@
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const welcomemessage = "Hi! I'm Jenny, Robert's virtual assistant. How can I help you?";

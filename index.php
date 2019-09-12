@@ -113,7 +113,11 @@
 </div> <!-- end chatbot-button -->
 
 <input id="chat-started" value="false" name="chat-started" type="hidden"/>
-<input id="chat-transcript" value="" name="chat-transcript" type="hidden"/>
+<input id="channel" value="1" name="channel" type="hidden"/>
+<input id="step" value="1" name="step" type="hidden"/>
+<input id="clientid" value="010150" name="clientid" type="hidden"/>
+<input id="sessionid" value="" name="sessionid" type="hidden"/>
+
 
 <script src="conf/chatbot.conf.js"></script>
 <script src="js/chatbot.js"></script>
