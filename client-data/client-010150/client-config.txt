@@ -1,2 +1,3 @@
 [DEFAULT]
 email_bcc = mike.field@yahoo.com
+web_domain = www.mikefield.ca
