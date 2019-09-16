@@ -1,34 +1,45 @@
 # chatbot
 
-
 PURPOSE
 
 Adds a basic slot-and-answer chatbot to a website
-Conversations (aka "channels") are defined in the ./chatbot/channels.py module
+Conversations (aka "channels") are defined in the ./client-data/client-<clientid>/channel-descriptions.txt file
 
 
 TO RUN THIS APPLICATION
 
 Add to httpd.conf ".py" as a handler. Look for this line:
     AddHandler cgi-script .cgi .pl .py
+Allow htaccess Override in httpd.conf. Look for this line:
+	AllowOverride All
 Restart Apache
 Top of .py script should show the location of the python intepreter, like this:
 	#!/usr/local/bin/python3
 	(use which python3 to get the path)
-Make sure your .py script is executable (chmod 777)
+Make sure your chatbot-main.py script is executable (chmod 777)
 
-Copy the nltk_data folder to the webserver. Or, run this script from the command line, but it opens up a Python app in a new window, so you have to be able to view it. Or run it locally and then copy the local nltk_data folder (about 4GB) to the server
+Copy the nltk_data/tokenizers folder to the webserver (about 50MB), or run these two python commands the first time only:
+	import nltk
+	nltk.download('punkt')
 
 Create a subfolder /client-data/client-<clientid>/transcripts/
 	Make sure the /transcripts/ folder is writeable (chmod 777)
-	The clientid is specified in the chatbot's .php file in the cliendid hidden input
-	e.g.	<input id="clientid" value="010150" name="clientid" type="hidden"/>
+
+Create a .htaccess file in the root folder of the chatbot, with the following line:
+Header set Access-Control-Allow-Origin: "*"
 
 
-#!/usr/local/bin/python3
 
-# Run this script the first time only
-import nltk
-nltk.download()
-nltk.download('punkt')
-nltk.download('wordnet')
+TO INCLUDE THE CHATBOT IN YOUR WEBSITE
+
+Copy the following code into your webpage, just before your closing </body> tag. (Be sure to specify the correct client id)
+
+<script type="text/javascript">
+    window.__client = window.__client || {};
+    window.__client.id = "010150";
+    (function() {
+        var c = document.createElement('script'); c.type = 'text/javascript'; c.async = true;
+        c.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.mikefield.ca/chatbot/js/plugin.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(c, s);
+    })();
+</script>
