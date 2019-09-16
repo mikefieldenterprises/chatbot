@@ -6,6 +6,9 @@ import logging
 def getEmailBCC():
     return getClientConfigValue( "email_bcc" )
 
+def getRemoteHost():
+    return getClientConfigValue( "web_domain" )
+
 def getClientConfigValue( key ):
     clientconfigvalues = configparser.ConfigParser()
     clientconfigvalues.read( config.PATH_TO_CLIENTCONFIG_FILE )

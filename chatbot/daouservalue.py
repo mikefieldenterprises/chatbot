@@ -5,13 +5,12 @@ import chatbot.messaging as messaging   # Custom messaging module
 import chatbot.utils as utils           # Custom utils module
 import chatbot.daoclientconfig as daoclientconfig # Custom client config values module
 import logging
-import os
 
 # Emails a copy of the uservalues to the given address
 def emailUserValues():
     to = daoclientconfig.getEmailBCC()
     cc = ""
-    domain = os.environ.get("REMOTE_HOST")
+    domain = daoclientconfig.getRemoteHost()
     if config.SESSIONID:
         subject = "Request and Chat Transcript from "+str(domain)
         body = ""

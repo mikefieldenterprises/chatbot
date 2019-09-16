@@ -1,24 +1,25 @@
 # DATA CLASS
 import chatbot.config as config
 import logging
-import os                               # For getting environment variable such as REMOTE_HOST
 import json
 from datetime import datetime
 import chatbot.daouservalue as daouservalue                     # Custom daouservalue module
 import chatbot.messaging as messaging                       # Custom messaging module
+import chatbot.daoclientconfig as daoclientconfig           # Custom daoclientconfig module
+import chatbot.utils as utils           # Custom utils module
 
 
 # Emails a copy of the transcript to the given address
 def emailTranscript( recipient ):
     to = daouservalue.getUserValue( "email" )
     cc = ""
-    domain = os.environ.get("REMOTE_HOST")
+    domain = daoclientconfig.getRemoteHost()
     if to and config.SESSIONID:
         subject = "Chat Transcript from "+str(domain)
         transcriptfilepath = getTranscriptFileAndPath()
         body = ""
         with open ( transcriptfilepath, "r" ) as transcriptfile:
-            body = transcriptfile.readlines()
+            body = utils.convertArrayToLinesWithBreaks( transcriptfile.readlines() )
         messaging.sendEmail( to, cc, subject, body )
         logging.debug("Sent transcript to "+to)
     elif not to:
