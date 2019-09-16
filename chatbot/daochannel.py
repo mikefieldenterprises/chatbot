@@ -3,7 +3,6 @@ import chatbot.config as config
 import json
 import logging
 import chatbot.daotranscript as daotranscript     # Custom transcripts module
-import chatbot.daochannel as daochannel       # Custom dao module
 import chatbot.daouservalue as daouservalue # Custom module
 import chatbot.outputformatter as outputformatter   # Custom output formatter module
 import chatbot.messaging as messaging # Custom messenger module
@@ -93,7 +92,7 @@ def getOutputFromActions( channel, step, actions, input_raw, stepdata ):
 def getResponseFromChannelAndStep( input_raw, input_corrected, channel, step ):
 
     # Load the step data from the channel description file
-    stepdata = daochannel.getStepAsDict( channel, step )
+    stepdata = getStepAsDict( channel, step )
     output = {}
     logging.debug("Inside getResponseFromChannelAndStep(), input_raw: "+str(input_raw))
 
