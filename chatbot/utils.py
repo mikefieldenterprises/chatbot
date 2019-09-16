@@ -3,7 +3,8 @@
 def convertArrayToLinesWithBreaks( arr ):
     retval = ""
     for a in arr:
-        retval += a + "\n"
+        if not a.endswith("\n"):
+            retval += a + "\n"
     return retval
 
 # Loads the given file into an array, one element per line. Ignore emtpy lines and lines starting with #

@@ -1,9 +1,9 @@
 function calculateResponse( userinput ) {
     var step = document.getElementById("step").value;
     var channel = document.getElementById("channel").value;
-    var clientid = document.getElementById("clientid").value;
+    var clientid = window.__client.id;
     var sessionid = document.getElementById("sessionid").value;
-    var thisurl = "./chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
+    var thisurl = "http://cdn.mikefield.ca/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
     $.ajax({url: thisurl, success: function(result){
         removeDOMElement( "thinking-wrapper" );
         var jsonobj = JSON.parse(result);

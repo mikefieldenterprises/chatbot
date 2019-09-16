@@ -12,7 +12,7 @@ PATH_TO_CHANNEL_FILE = "./client-data/client-"+CLIENTID+"/channel-descriptions.t
 PATH_TO_TRANSCRIPT_FILE = "./client-data/client-"+CLIENTID+"/transcripts/"+SESSIONID+"-transcript.txt"
 PATH_TO_CLIENTCONFIG_FILE = "./client-data/client-"+CLIENTID+"/client-config.txt"
 LANGUAGE = "english"
-EMAIL_FROM = "mike@mikefield.ca"
+EMAIL_FROM = "Mike Field Enterprises <mike@mikefield.ca>"
 LOG_LEVEL = logging.DEBUG # INFO, WARN, DEBUG, ERROR
 
 # ONLY USED IN ALTERNATE / COMMENTED-OUT VERSION OF sendEmail(). CAN REMOVE THEM IF SENDMAIL WORKS
