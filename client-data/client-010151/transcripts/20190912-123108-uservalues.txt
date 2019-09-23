@@ -1,0 +1,6 @@
+[DEFAULT]
+name = mike
+email = mike@mikefield.ca
+buy_or_sell = sell
+chat_or_agent = i prefer an agent
+

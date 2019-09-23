@@ -1,0 +1,19 @@
+[2019-09-11 16:11:06] Chatbot: Hi! I'm Jenny. Before we get started, what's your name?
+[2019-09-11 16:11:13] You: mike
+[2019-09-11 16:11:13] Chatbot: Hi Mike. What's your email address?
+[2019-09-11 16:11:18] You: mike@mikefield.ca
+[2019-09-11 16:11:18] Chatbot: Are you looking to buy or sell a property?
+[2019-09-11 16:11:21] You: Sell
+[2019-09-11 16:11:21] Chatbot: Is a chatbot okay or agent?
+[2019-09-11 16:11:24] You: I prefer an agent
+[2019-09-11 16:11:24] Chatbot: How should we contact you?
+[2019-09-11 16:11:27] You: Call me
+[2019-09-11 16:11:27] Chatbot: Ok great - which number should we call?
+[2019-09-11 16:11:32] You: 12312312311
+[2019-09-11 16:11:32] Chatbot: Sounds good. We'll be in touch as soon as possible (usually a few hours). Can I help you with anything else?
+[2019-09-11 16:11:35] You: No
+[2019-09-11 16:11:35] Chatbot: Would you like me to email you a copy of this chat's transcript?
+[2019-09-11 16:11:38] You: Yes
+[2019-09-11 16:11:38] Chatbot: Is your correct email mike@mikefield.ca?
+[2019-09-11 16:11:44] You: Yes
+[2019-09-11 16:11:44] Chatbot: Done. The transcript is on its way. Enjoy the rest of your day, Mike!

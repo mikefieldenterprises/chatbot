@@ -1,0 +1,54 @@
+# Channel data
+# Fields are: channel, step, bottext, buttonoptions, actions
+# buttonoptions is a csv of strings
+# action is in the format <type>|<action>
+# Make sure have at least a channel 1 step 1
+# Actions starting with save- will save a key=value pair in the uservalues file 
+#   e.g. save-phone_number will save a value phone_number=xyz
+
+# BEGINNING THE CONVERSATION
+{"channel":"1"  ,"step":"1"  ,"bottext":["Hi! I'm Jenny. Before we get started, what's your name?"]       ,"buttonoptions":[]                      ,"action":"Any|save-name,goto-channel-1-step-2", "triggers":[]}
+{"channel":"1"  ,"step":"2"  ,"bottext":["Hi %name%. What's your email address?"]       ,"buttonoptions":[]                      ,"action":"Any|validateemail,save-email,goto-channel-1-step-3", "triggers":[]}
+{"channel":"1"  ,"step":"3"  ,"bottext":["Are you looking to buy or sell a property?"]       ,"buttonoptions":["Buy","Sell","Both"]                      ,"action":"Conditional|Buy:save-buy_or_sell,goto-channel-2-step-1;Sell:save-buy_or_sell,goto-channel-3-step-1;Both:save-buy_or_sell,goto-channel-2-step-1", "triggers":[]}
+
+# I'M A BUYER
+{"channel":"2"  ,"step":"1"  ,"bottext":["Great! And where are you located?","Exciting! Where exactly are you looking to buy?"]             ,"buttonoptions":["Toronto","Caledon","Another Area"]    ,"action":"Any|save-location,goto-channel-2-step-2", "triggers":[]}
+{"channel":"2"  ,"step":"2"  ,"bottext":["What price range are you looking for?","Nice. Can I know your price range?"]                  ,"buttonoptions":["Less than $250,000","$250k-$500k","$500k-$1 million","Over $1 million"]  ,"action":"Any|save-price_range,goto-channel-2-step-3", "triggers":[]}
+{"channel":"2"  ,"step":"3"  ,"bottext":["Which type of property?","And which type of property?"]                ,"buttonoptions":["Condo","Single Family Home","Multiplex","Other"]                    ,"action":"Any|save-property_type,goto-channel-2-step-4", "triggers":[]}
+{"channel":"2"  ,"step":"4"  ,"bottext":["Are you a first-time buyer?","Last question: are you a first-time home buyer?"]        ,"buttonoptions":["Yes","No"]                             ,"action":"Any|save-first_time_buyer,goto-channel-2-step-5", "triggers":[]}
+{"channel":"2"  ,"step":"5"  ,"bottext":["Perfect. We can send you some listings in your area. Do you prefer by email or by phone?"]       ,"buttonoptions":["Email Me","Call Me"]                         ,"action":"Conditional|Email Me:goto-channel-80-step-2;Call Me:goto-channel-80-step-4", "triggers":[]}
+
+# I'M A SELLER
+{"channel":"3"  ,"step":"1"  ,"bottext":["Is a chatbot okay or agent?"]        ,"buttonoptions":["Chatting is okay","I prefer an agent"]    ,"action":"Conditional|Chatting is okay:save-chat_or_agent,goto-channel-3-step-3;I prefer an agent:save-chat_or_agent,goto-channel-80-step-1", "triggers":[]}
+{"channel":"3"  ,"step":"3"  ,"bottext":["What's the address of the home?"]    ,"buttonoptions":[]                                       ,"action":"Any|save-property_address,goto-channel-3-step-4", "triggers":[]}
+{"channel":"3"  ,"step":"4"  ,"bottext":["Roughly what's the sale price?"]     ,"buttonoptions":["Less than $250,000","$250k-$500k","$500k-$1 million","Over $1 million"]  ,"action":"Any|save-price_range,goto-channel-3-step-5", "triggers":[]}
+{"channel":"3"  ,"step":"5"  ,"bottext":["Which type of home?"]                ,"buttonoptions":["Condo","Single Family Home","Multiplex","Other"]                   ,"action":"Any|save-property_type,goto-channel-80-step-1", "triggers":[]}
+
+# ASK IF WE SHOULD CONTACT YOU
+{"channel":"80"  ,"step":"1"  ,"bottext":["How should we contact you?","How can we best reach you?"]         ,"buttonoptions":["Email me","Call me"]                                       ,"action":"Conditional|Email me:save-email_or_phone,goto-channel-80-step-2;Call me:save-email_or_phone,goto-channel-80-step-4", "triggers":[]}
+{"channel":"80"  ,"step":"2"  ,"bottext":["Is your correct email %email%?"]         ,"buttonoptions":["Yes","No"]              ,"action":"Conditional|Yes:goto-channel-98-step-1;No:goto-channel-80-step-3", "triggers":[]}
+{"channel":"80"  ,"step":"3"  ,"bottext":["Ok, %name%, which email should we send a message to?"]         ,"buttonoptions":[]              ,"action":"Any|validateemail,save-email,goto-channel-98-step-1", "triggers":["email me","send me an email","can you email me","can you message me","can you msg me","msg me"]}
+{"channel":"80"  ,"step":"4"  ,"bottext":["Ok great - which number should we call?"]         ,"buttonoptions":[]              ,"action":"Any|save-phone_number,goto-channel-98-step-1", "triggers":[]}
+
+# ENDING THE CONVERSATION
+{"channel":"98"  ,"step":"1"  ,"bottext":["Sounds good. We'll be in touch as soon as possible (usually a few hours). Can I help you with anything else?"]         ,"buttonoptions":["Yes","No"]                                        ,"action":"Conditional|Yes:goto-channel-99-step-2-thenexitchannel;No:goto-channel-300-step-1", "triggers":[]}
+{"channel":"99"  ,"step":"1"  ,"bottext":["Amazing. Thanks so much for reaching out. We'll be in touch within the next 24 hours (usually less). Is there anything else I can help you with?"]         ,"buttonoptions":["Yes","No"]                                        ,"action":"Conditional|Yes:goto-channel-99-step-2-thenexitchannel;No:goto-channel-300-step-1", "triggers":[]}
+{"channel":"99"  ,"step":"2"  ,"bottext":["Sure, what can I do for you?"]         ,"buttonoptions":[]                                        ,"action":"Any|nothing", "triggers":[]}
+{"channel":"99"  ,"step":"3"  ,"bottext":["Ok great. Enjoy the rest of your day!"]         ,"buttonoptions":[]                                        ,"action":"Any|nothing", "triggers":[]}
+
+# I-DON'T-UNDERSTAND
+{"channel":"100"  ,"step":"1"  ,"bottext":["I'm so sorry, I don't understand. Would you like us to contact you?"]         ,"buttonoptions":["Yes","No"]                                        ,"action":"Conditional|Yes:save-contact_me,goto-channel-80-step-1;No:save-contact_me,goto-channel-300-step-1", "triggers":[]}
+
+# GREETINGS AND PLEASANTRIES
+{"channel":"200"  ,"step":"1"  ,"bottext":["You're welcome", "My pleasure", "No problem at all"]         ,"buttonoptions":[]                                        ,"action":"Any|exitchannel", "triggers":["thanks","thank you","gracias","grazie","danke","cheers","sweet","chur"]}
+{"channel":"200"  ,"step":"2"  ,"bottext":["Hi!","Hello","Hello!",":-)","Hi :-)"]         ,"buttonoptions":[]                                        ,"action":"Any|exitchannel", "triggers":["hello","hi","greetings","hey","hola"]}
+{"channel":"200"  ,"step":"3"  ,"bottext":["Good, thanks","I'm great, thanks for asking","Excellent, thanks"]         ,"buttonoptions":[]                                        ,"action":"Any|exitchannel", "triggers":["how are you","how are u","how r u","how r you","how ru","how are things","what's new","sup","what's up","how r u","how u doin"]}
+{"channel":"200"  ,"step":"4"  ,"bottext":["I'm Jenny, your virtual assistant."]         ,"buttonoptions":[]                                        ,"action":"Any|exitchannel", "triggers":["who are you","what your name","what is your name","help"]}
+{"channel":"200"  ,"step":"5"  ,"bottext":["Bye! Thanks for the chat."]         ,"buttonoptions":[]                                        ,"action":"Any|exitchannel,closechat", "triggers":["bye","see you","later", "see you later", "adios", "chao", "ciao", "good bye", "goodbye","exit"]}
+
+# EMAIL ME CHAT TRANSCRIPT
+{"channel":"300"  ,"step":"1"  ,"bottext":["Would you like me to email you a copy of this chat's transcript?"]         ,"buttonoptions":["Yes","No"]                                        ,"action":"Conditional|Yes:goto-channel-300-step-2;No:goto-channel-99-step-3-thenclosechat", "triggers":[]}
+{"channel":"300"  ,"step":"2"  ,"bottext":["Is your correct email %email%?"]         ,"buttonoptions":["Yes","No"]              ,"action":"Conditional|Yes:emailtranscript,goto-channel-300-step-4-thenclosechat;No:goto-channel-300-step-3", "triggers":[]}
+{"channel":"300"  ,"step":"3"  ,"bottext":["Ok, %name%, which email should we send a message to?"]         ,"buttonoptions":[]              ,"action":"Any|validateemail,save-email,emailtranscript,goto-channel-300-step-4-thenclosechat", "triggers":["email me","send me an email","can you email me","can you message me","can you msg me","msg me"]}
+{"channel":"300"  ,"step":"4"  ,"bottext":["Done. The transcript is on its way. Enjoy the rest of your day, %name%!"]         ,"buttonoptions":[]                                        ,"action":"Any|nothing", "triggers":[]}
+
