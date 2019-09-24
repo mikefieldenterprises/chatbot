@@ -66,7 +66,7 @@ def getTranscriptFilePath( clientid, transcriptfile ):
     return getTranscriptsFolder( clientid ) + transcriptfile
 
 def getTranscriptsFolder( clientid ):
-    return FOLDER_CLIENT_DATA + "client-" + clientid + "/transcripts/"
+    return getClientDataFolder() + "client-" + clientid + "/transcripts/"
 
 def getTranscriptFilesAsHTMLLinks( clientid, foldername ):
     retval = ""
