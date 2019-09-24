@@ -49,7 +49,7 @@ def getClientDataFolder():
 
 def getClientFolderContentsAsHTMLLinks( foldername ):
     retval = ""
-    for folder in os.listdir( foldername ):
+    for folder in sorted(os.listdir( foldername ) ):
         if "client-" in folder:
             clientid = folder.split("-")[1]
             retval += "<a href=\"?c="+clientid+"\">" + clientid + "</a><br/>"
@@ -70,7 +70,7 @@ def getTranscriptsFolder( clientid ):
 
 def getTranscriptFilesAsHTMLLinks( clientid, foldername ):
     retval = ""
-    for f in os.listdir( foldername ):
+    for f in sorted( os.listdir( foldername ) , reverse=True):
         if ".DS_Store" not in f:
             retval += "<a href=\"?c="+clientid+"&t="+f+"\">" + f + "</a><br/>"
     return retval
