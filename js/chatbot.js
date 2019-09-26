@@ -3,7 +3,7 @@ function calculateResponse( userinput ) {
     var channel = document.getElementById("channel").value;
     var clientid = window.__client.id;
     var sessionid = document.getElementById("sessionid").value;
-    var thisurl = "http://cdn.mikefield.ca/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
+    var thisurl = "//cdn.mikefield.ca/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
     $.ajax({url: thisurl, success: function(result){
         removeDOMElement( "thinking-wrapper" );
         var jsonobj = JSON.parse(result);
