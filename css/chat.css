@@ -1448,6 +1448,8 @@
   text-align: center;
 }
 
+#app #chat .chat-window a.powered { border-bottom:none; }
+
 #app #chat .chat-window .powered {
   z-index: 2;
   color: #fff;
