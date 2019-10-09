@@ -97,7 +97,7 @@ function pauseThenCloseChat() {
         document.getElementById("chat-started").value = "false";
         document.getElementById("conversation-wrapper").innerHTML = "";
         toggleChat();        
-    }, 2000 );
+    }, 5000 );
 }
 
 function removeDOMElement( id ) {
