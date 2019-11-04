@@ -1,11 +1,12 @@
 // Load styleshets, supporting JS files, and then add the html to the document
 
 window.onload = function() {
-    this.loadCssByHref( "//cdn.mikefield.ca/chatbot/css/chat.css");
-    this.loadJSBySrc( "//cdn.mikefield.ca/chatbot/js/chatbot.js");
-    this.loadJSBySrc( "//cdn.mikefield.ca/chatbot/conf/chatbot.conf.js");
-    this.loadJSBySrc( "//cdn.mikefield.ca/chatbot/js/jquery-3.4.1.min.js");
-    this.loadHtmlWithAjax( "//cdn.mikefield.ca/chatbot/plugin.html");
+    var hostname = "//cdn.mikefield.ca"; // or cdn.mikefield.ca
+    this.loadCssByHref( hostname+"/chatbot/css/chat.css");
+    this.loadJSBySrc( hostname+"/chatbot/js/chatbot.js");
+    this.loadJSBySrc( hostname+"/chatbot/conf/chatbot.conf.js");
+    this.loadJSBySrc( hostname+"/chatbot/js/jquery-3.4.1.min.js");
+    this.loadHtmlWithAjax( hostname+"/chatbot/plugin.html");
 }
 
 function createDivById( divid ) {

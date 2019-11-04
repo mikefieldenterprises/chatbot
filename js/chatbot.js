@@ -3,7 +3,7 @@ function calculateResponse( userinput ) {
     var channel = document.getElementById("channel").value;
     var clientid = window.__client.id;
     var sessionid = document.getElementById("sessionid").value;
-    var thisurl = "//cdn.mikefield.ca/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
+    var thisurl = "/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
     $.ajax({url: thisurl, success: function(result){
         removeDOMElement( "thinking-wrapper" );
         var jsonobj = JSON.parse(result);
@@ -24,6 +24,30 @@ function calculateResponse( userinput ) {
             pauseThenCloseChat();
         }
     }});
+}
+
+function setChatbotNameAndAvatar() {
+    var clientid = window.__client.id;
+    setChatbotName( clientid );
+    setChatbotAvatar();
+ }
+
+function setChatbotName( clientid ) {
+    var thisurl = "client-data/client-"+clientid+"/client-config.json";
+    $.ajax({url: thisurl, success: function(result){
+        var jsonobj = JSON.parse(result);
+        var chatbotfullname = jsonobj.chatbot_fullname;
+        updateInnerHTML( "chatbotfullname", chatbotfullname );
+    }});
+}
+
+function setChatbotAvatar() {
+    var chatbotavatar = getChatbotAvatarUrl();
+    document.getElementById("chatbotavatar").style.backgroundImage = "url('"+chatbotavatar+"')";;
+}
+
+function getChatbotAvatarUrl() {
+    return "client-data/client-"+window.__client.id+"/avatar.jpg";
 }
 
 function disableTextInput() {
@@ -140,7 +164,7 @@ function showResponse(responsetext) {
     var responseTemplate = '<div class="response">'+
 '                                        <div class="response-date" style="color: rgba(255, 255, 255, 0.7);">'+timestamp+'</div>'+
 '                                        <div bot="" class="response-wrapper avatar-offset">'+
-'                                            <div class="avatar"></div>'+
+'                                            <div class="avatar" style="background-image:url(\''+getChatbotAvatarUrl()+'\')"></div>'+
 '                                            <div class="text response-content">'+
 '                                                <div class="message" style="background: rgb(233, 238, 244); border-color: rgb(233, 238, 244); color: rgb(100, 100, 100);">'+responsetext+'</div>'+
 '                                            </div>'+
@@ -188,7 +212,7 @@ function showThinking() {
     var responseTemplate = '<div class="response" id="thinking-wrapper">'+
 '                                        <div class="response-date" style="color: rgba(255, 255, 255, 0.7);">'+timestamp+'</div>'+
 '                                        <div bot="" class="response-wrapper avatar-offset">'+
-'                                            <div class="avatar"></div>'+
+'                                            <div class="avatar" style="background-image:url(\''+getChatbotAvatarUrl()+'\')"></div>'+
 '                                            <div class="text response-content">'+
 '                                                <div class="message" style="background: rgb(233, 238, 244); border-color: rgb(233, 238, 244); color: rgb(100, 100, 100);" id="thinking-body">...</div>'+
 '                                            </div>'+
@@ -218,6 +242,7 @@ function startChat() {
     document.getElementById("chat-started").value = "true";
     document.getElementById("sessionid").value = getNewSessionId();
     showThinking();
+    setChatbotNameAndAvatar();
     calculateResponse( "" ); // Load channel 1 step 1
 }
 
