@@ -35,7 +35,7 @@ function setChatbotNameAndAvatar() {
 function setChatbotName( clientid ) {
     var thisurl = "//cdn.mikefield.ca/chatbot/client-data/client-"+clientid+"/client-config.json";
     $.ajax({url: thisurl, success: function(result){
-        var jsonobj = JSON.parse(result);
+        var jsonobj = result;
         var chatbotfullname = jsonobj.chatbot_fullname;
         updateInnerHTML( "chatbotfullname", chatbotfullname );
     }});
