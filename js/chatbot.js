@@ -33,7 +33,7 @@ function setChatbotNameAndAvatar() {
  }
 
 function setChatbotName( clientid ) {
-    var thisurl = "//cdn.mikefield.ca/client-data/client-"+clientid+"/client-config.json";
+    var thisurl = "//cdn.mikefield.ca/chatbot/client-data/client-"+clientid+"/client-config.json";
     $.ajax({url: thisurl, success: function(result){
         var jsonobj = JSON.parse(result);
         var chatbotfullname = jsonobj.chatbot_fullname;
@@ -47,7 +47,7 @@ function setChatbotAvatar() {
 }
 
 function getChatbotAvatarUrl() {
-    return "//cdn.mikefield.ca/client-data/client-"+window.__client.id+"/avatar.jpg";
+    return "//cdn.mikefield.ca/chatbot/client-data/client-"+window.__client.id+"/avatar.jpg";
 }
 
 function disableTextInput() {
