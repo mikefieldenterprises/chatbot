@@ -15,8 +15,8 @@ LANGUAGE = "english"
 EMAIL_FROM = "Mike Field Enterprises <mike@mikefield.ca>"
 LOG_LEVEL = logging.DEBUG # INFO, WARN, DEBUG, ERROR
 
-# ONLY USED IN ALTERNATE / COMMENTED-OUT VERSION OF sendEmail(). CAN REMOVE THEM IF SENDMAIL WORKS
-#EMAIL_SMTP_SERVER = "" 
-#EMAIL_SMTP_PORT = ""
-#EMAIL_SMTP_USER = ""
-#EMAIL_SMTP_PWD = ""
+# ONLY USED IN sendEmail()
+EMAIL_SMTP_SERVER = "smtp.gmail.com" 
+EMAIL_SMTP_PORT = "465"
+EMAIL_SMTP_USER = "mike@mikefield.ca"
+EMAIL_SMTP_PWD = "zvvlhsvaibfyrycy" #App-Specific Password
