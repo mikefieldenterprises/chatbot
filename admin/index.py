@@ -1,5 +1,5 @@
-#!/usr/local/bin/python3    # DEV
-#/usr/bin/python3           # PROD
+#/usr/local/bin/python3    # DEV
+#!/usr/bin/python3           # PROD
 
 # Gets contents of the client-data folder (relative to current script, it's back one level, 
 # then up one level in the /client-data/ folder).
