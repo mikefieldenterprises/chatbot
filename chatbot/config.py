@@ -19,4 +19,4 @@ LOG_LEVEL = logging.DEBUG # INFO, WARN, DEBUG, ERROR
 EMAIL_SMTP_SERVER = "smtp.gmail.com" 
 EMAIL_SMTP_PORT = "465"
 EMAIL_SMTP_USER = "mike@mikefield.ca"
-EMAIL_SMTP_PWD = "zvvlhsvaibfyrycy" #App-Specific Password
+EMAIL_SMTP_PWD = "jremcaptxtvyonao" #App-Specific Password
