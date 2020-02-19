@@ -1,0 +1,6 @@
+AuthType Basic
+AuthName "Password Protected Area"
+AuthUserFile /var/www/html/efs/htdocs/chatbot/admin/.htpasswd
+Require valid-user
+
+Options -Indexes

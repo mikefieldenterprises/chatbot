@@ -1,0 +1,9 @@
+[2019-09-12 12:31:10] Chatbot: Hi! I'm Jenny. Before we get started, what's your name?
+[2019-09-12 12:31:13] You: Mike
+[2019-09-12 12:31:13] Chatbot: Hi Mike. What's your email address?
+[2019-09-12 12:31:19] You: mike@mikefield.ca
+[2019-09-12 12:31:19] Chatbot: Are you looking to buy or sell a property?
+[2019-09-12 12:31:22] You: Sell
+[2019-09-12 12:31:22] Chatbot: Is a chatbot okay or agent?
+[2019-09-12 12:31:26] You: I prefer an agent
+[2019-09-12 12:31:26] Chatbot: How can we best reach you?
