@@ -28,9 +28,8 @@ def sendEmail( to, cc, subject, body ):
     # p = Popen(["/usr/sbin/sendmail", "-t", "-oi"], stdin=PIPE)
     # p.communicate(msg.as_bytes())
 
-    smtpObj = smtplib.SMTP( config.EMAIL_SMTP_SERVER, config.EMAIL_SMTP_PORT)
+    smtpObj = smtplib.SMTP_SSL( config.EMAIL_SMTP_SERVER, config.EMAIL_SMTP_PORT)
     smtpObj.ehlo()
-    smtpObj.starttls()
     smtpObj.login( config.EMAIL_SMTP_USER, config.EMAIL_SMTP_PWD)
     text = msg.as_string()
     smtpObj.sendmail( config.EMAIL_FROM, to, text)
