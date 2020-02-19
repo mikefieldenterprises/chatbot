@@ -1,5 +1,4 @@
-#!/usr/local/bin/python3    # DEV
-#/usr/bin/python3           # PROD
+#!/usr/bin/python3
 
 # Import required modules
 import traceback

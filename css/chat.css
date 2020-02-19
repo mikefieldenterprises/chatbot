@@ -157,6 +157,7 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
+  z-index:9999999999999999;
 }
 
 #chatbot-app a {
@@ -1447,6 +1448,8 @@
   text-align: center;
 }
 
+#app #chat .chat-window a.powered { border-bottom:none; }
+
 #app #chat .chat-window .powered {
   z-index: 2;
   color: #fff;
@@ -1621,7 +1624,7 @@
 }
 
 #app #chat .chat-button-theme-bubble {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   width: 60px;
@@ -1674,7 +1677,7 @@
 }
 
 .chat-button-theme-bubble {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   width: 60px;
