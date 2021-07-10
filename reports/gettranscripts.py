@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
+#/usr/bin/python3
 
 # Gets contents of the client-data folder (relative to current script, it's back one level, 
 # then up one level in the /client-data/ folder).
@@ -9,6 +10,7 @@
 import logging
 import cgi
 import os
+import datetime as dt
 
 # Set logging level
 logging.basicConfig(level=logging.ERROR)
@@ -22,6 +24,10 @@ def main():
     # Get data input from form/querystring           
     clientid = cgi.FieldStorage().getvalue("c")
     transcriptfile = cgi.FieldStorage().getvalue("t")
+    minutes_ago = cgi.FieldStorage().getvalue("m")
+
+    if not minutes_ago:
+        minutes_ago = int(0)
 
     if not clientid and not transcriptfile:
         # Show error
@@ -30,7 +36,7 @@ def main():
     elif clientid and not transcriptfile:
         # Show contents of client folder
         transcriptsfolder = getTranscriptsFolder( clientid )
-        output = getTranscriptFilesAsNewLines( clientid, transcriptsfolder )
+        output = getTranscriptFilesAsNewLines( clientid, transcriptsfolder, minutes_ago )
 
     elif clientid and transcriptfile:
         path = getTranscriptFilePath( clientid, transcriptfile )
@@ -56,11 +62,18 @@ def getTranscriptFilePath( clientid, transcriptfile ):
 def getTranscriptsFolder( clientid ):
     return getClientDataFolder() + "client-" + clientid + "/transcripts/"
 
-def getTranscriptFilesAsNewLines( clientid, foldername ):
+def getTranscriptFilesAsNewLines( clientid, foldername, minutes_ago ):
     retval = ""
+    interval = int(minutes_ago)
+    start_time = dt.datetime.now() - dt.timedelta(minutes=interval)
     for f in sorted( os.listdir( foldername ) , reverse=True):
         if ".DS_Store" not in f and "uservalues" not in f:
-            retval += f + "\n"
+            if minutes_ago == 0:
+                retval += f + "\n"
+            else:
+                filetime = dt.datetime.fromtimestamp( os.path.getctime( foldername + f) )
+                if filetime >= start_time:
+                    retval += f + "\n"
     return retval
 
 
