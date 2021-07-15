@@ -3,7 +3,7 @@ function calculateResponse( userinput ) {
     var channel = document.getElementById("channel").value;
     var clientid = window.__client.id;
     var sessionid = document.getElementById("sessionid").value;
-    var thisurl = "//cdn.mikefield.ca/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
+    var thisurl = "//" + window.__hostname + "/chatbot/chatbot-main.py?q="+userinput+"&cn="+channel+"&sn="+step+"&cid="+clientid+"&sid="+sessionid;
     $.ajax({url: thisurl, success: function(result){
         removeDOMElement( "thinking-wrapper" );
         var jsonobj = JSON.parse(result);
@@ -33,7 +33,7 @@ function setChatbotNameAndAvatar() {
  }
 
 function setChatbotName( clientid ) {
-    var thisurl = "//cdn.mikefield.ca/chatbot/client-data/client-"+clientid+"/client-config.json";
+    var thisurl = "//" + window.__hostname + "/chatbot/client-data/client-"+clientid+"/client-config.json";
     $.ajax({url: thisurl, success: function(result){
         var jsonobj = result;
         var chatbotfullname = jsonobj.chatbot_fullname;
@@ -47,7 +47,7 @@ function setChatbotAvatar() {
 }
 
 function getChatbotAvatarUrl() {
-    return "//cdn.mikefield.ca/chatbot/client-data/client-"+window.__client.id+"/avatar.jpg";
+    return "//" + window.__hostname + "/chatbot/client-data/client-"+window.__client.id+"/avatar.jpg";
 }
 
 function disableTextInput() {
@@ -196,7 +196,7 @@ function showUserInput( userinput ) {
 '                                        <div class="response-date" style="color: rgba(255, 255, 255, 0.7);">'+timestamp+'</div>'+
 '                                        <div user="" class="response-wrapper">'+
 '                                            <div class="user response-content">'+
-'                                                <div class="message" style="color: rgb(250, 250, 250); background: rgb(31, 140, 235); border-color: rgb(31, 140, 235);">'+userinput+'</div>'+
+'                                                <div class="message" style="color: rgb(250, 250, 250); background: var(--button-color); border-color: var(--button-color);">'+userinput+'</div>'+
 '                                                <div class="info" style="color: rgb(100, 100, 100);"><!----></div>'+
 '                                            </div>'+
 '                                        </div>'+
